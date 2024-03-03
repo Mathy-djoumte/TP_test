@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.8.1 on win32)" generated="2024-03-03T08:26:00.524506" rpa="false" schemaversion="5">
+<suite id="s1" name="Tests" source="H:\mathide_univ\master1enspd\test logiciel\Mon_API\tests">
+<suite id="s1-s1" name="Api" source="H:\mathide_univ\master1enspd\test logiciel\Mon_API\tests\api.robot">
+<test id="s1-s1-t1" name="Inscrire un utilisteur dans la BD" line="7">
+<kw name="Verifier si user existe dans BD" owner="signBack">
+<kw name="Connect To Database Using Custom Params" owner="DatabaseLibrary">
+<msg time="2024-03-03T08:26:01.340916" level="INFO">Executing : Connect To Database Using Custom Params : pymysql.connect(db_api_2.connect(database='demo', user='root',))</msg>
+<arg>pymysql</arg>
+<arg>database='demo', user='root',</arg>
+<arg>password='', host='localhost'</arg>
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to
+connect to the database using the map string `db_connect_string`
+(parsed as a list of named arguments).</doc>
+<status status="PASS" start="2024-03-03T08:26:01.294893" elapsed="0.066387"/>
+</kw>
+<kw name="Row Count Is 0" owner="DatabaseLibrary">
+<msg time="2024-03-03T08:26:01.361280" level="INFO">Executing : Row Count Is 0  |  select id from users where username= 'john' and password = md5('doe')</msg>
+<msg time="2024-03-03T08:26:01.364134" level="INFO">Executing : Row Count  |  select id from users where username= 'john' and password = md5('doe')</msg>
+<arg>select id from users where username= '${USERNAME}' and password = md5('${PASSWORD}')</arg>
+<doc>Check if any rows are returned from the submitted ``selectStatement``. If there are, then this will throw an
+AssertionError.</doc>
+<status status="PASS" start="2024-03-03T08:26:01.361280" elapsed="0.034415"/>
+</kw>
+<status status="PASS" start="2024-03-03T08:26:01.294893" elapsed="0.100802"/>
+</kw>
+<kw name="Inscription utilisateur par une requete post" owner="signBack">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2024-03-03T08:26:01.398504" level="INFO">Creating Session using : alias=session1, url=http://localhost:8080/demo, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>session1</arg>
+<arg>${WEBSITE_LINK}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2024-03-03T08:26:01.397507" elapsed="0.000997"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-03-03T08:26:01.398504" level="INFO">${data} = {'username': ' john', 'password': 'doe'}</msg>
+<var>${data}</var>
+<arg>username= ${USERNAME}</arg>
+<arg>password=${PASSWORD}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-03-03T08:26:01.398504" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-03-03T08:26:01.398504" level="INFO">${headers} = {'Content-Type': 'application/x-www-form-urlencoded'}</msg>
+<var>${headers}</var>
+<arg>Content-Type=application/x-www-form-urlencoded</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-03-03T08:26:01.398504" elapsed="0.000000"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2024-03-03T08:26:03.439338" level="WARN">Retrying (RetryAdapter(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED42E0&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée')': /demo/signup.php</msg>
+<msg time="2024-03-03T08:26:05.696243" level="WARN">Retrying (RetryAdapter(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED4520&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée')': /demo/signup.php</msg>
+<msg time="2024-03-03T08:26:08.142074" level="WARN">Retrying (RetryAdapter(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED4790&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée')': /demo/signup.php</msg>
+<msg time="2024-03-03T08:26:10.200945" level="FAIL">ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /demo/signup.php (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED49D0&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))</msg>
+<var>${response}</var>
+<arg>session1</arg>
+<arg>signup.php</arg>
+<arg>data= ${data} headers=${headers}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="FAIL" start="2024-03-03T08:26:01.398504" elapsed="8.847428">ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /demo/signup.php (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED49D0&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))</status>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${json}</var>
+<arg>{$response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-03-03T08:26:10.245932" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>${json}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2024-03-03T08:26:10.245932" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" start="2024-03-03T08:26:10.245932" elapsed="0.000000"/>
+</kw>
+<status status="FAIL" start="2024-03-03T08:26:01.397507" elapsed="8.848425">ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /demo/signup.php (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED49D0&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))</status>
+</kw>
+<kw name="Verifier que user est ajouter dans la BD" owner="signBack">
+<status status="NOT RUN" start="2024-03-03T08:26:10.261947" elapsed="0.000000"/>
+</kw>
+<tag>first</tag>
+<status status="FAIL" start="2024-03-03T08:26:01.293898" elapsed="8.970044">ConnectionError: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /demo/signup.php (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED49D0&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée'))</status>
+</test>
+<status status="FAIL" start="2024-03-03T08:26:00.595305" elapsed="9.672545"/>
+</suite>
+<status status="FAIL" start="2024-03-03T08:26:00.533046" elapsed="9.738602"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="1" skip="0">first</stat>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Tests">Tests</stat>
+<stat pass="0" fail="1" skip="0" id="s1-s1" name="Api">Tests.Api</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2024-03-03T08:26:03.439338" level="WARN">Retrying (RetryAdapter(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED42E0&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée')': /demo/signup.php</msg>
+<msg time="2024-03-03T08:26:05.696243" level="WARN">Retrying (RetryAdapter(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED4520&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée')': /demo/signup.php</msg>
+<msg time="2024-03-03T08:26:08.142074" level="WARN">Retrying (RetryAdapter(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001F73FED4790&gt;: Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée')': /demo/signup.php</msg>
+</errors>
+</robot>
